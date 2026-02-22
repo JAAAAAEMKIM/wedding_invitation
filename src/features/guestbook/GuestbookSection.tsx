@@ -6,32 +6,10 @@ interface GuestbookSectionProps {
   title?: string;
 }
 
-// Mock data for when Supabase is not configured
-const mockEntries: GuestbookEntry[] = [
-  {
-    id: '1',
-    name: '김민수',
-    message: '결혼 축하드립니다! 두 분의 앞날에 행복만 가득하시길 바랍니다. 💕',
-    createdAt: new Date('2024-03-15'),
-  },
-  {
-    id: '2',
-    name: '이서연',
-    message: '정말 축하해요! 예쁘게 잘 살아요~',
-    createdAt: new Date('2024-03-14'),
-  },
-  {
-    id: '3',
-    name: '박지훈',
-    message: '두 분의 결혼을 진심으로 축하합니다. 항상 웃음 가득한 가정 이루세요!',
-    createdAt: new Date('2024-03-13'),
-  },
-];
-
 export function GuestbookSection({
   title = 'GUESTBOOK',
 }: GuestbookSectionProps) {
-  const [entries, setEntries] = useState<GuestbookEntry[]>(mockEntries);
+  const [entries, setEntries] = useState<GuestbookEntry[]>([]);
   const [formData, setFormData] = useState<GuestbookFormData>({
     name: '',
     password: '',
@@ -43,9 +21,7 @@ export function GuestbookSection({
   useEffect(() => {
     async function loadEntries() {
       const data = await fetchGuestbookEntries();
-      if (data.length > 0) {
-        setEntries(data);
-      }
+      setEntries(data);
       setIsLoading(false);
     }
     loadEntries();
