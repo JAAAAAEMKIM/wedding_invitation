@@ -15,18 +15,16 @@ import type { AppPhase, LocationInfo, AccountSection } from '@/types';
 // Configuration - Replace with your actual data
 const NAVER_MAP_CLIENT_ID = '5pefwq1ob6';
 
-// Generate placeholder frame URLs for stop-motion animation
-// Replace these with actual image paths
-// Using 6 frames for faster loading during development
+// Stop-motion frames using optimized images
 const STOP_MOTION_FRAMES: string[] = Array.from(
   { length: 6 },
-  (_, i) => `/assets/gallery/photo-${i + 1}.jpg`
+  (_, i) => `/assets/gallery-optimized/thumb/photo-${i + 1}.webp`
 );
 
-// Gallery images - All 12 photos
-const GALLERY_IMAGES: string[] = Array.from(
+// Gallery image indices (1-12)
+const GALLERY_IMAGE_INDICES: number[] = Array.from(
   { length: 12 },
-  (_, i) => `/assets/gallery/photo-${i + 1}.jpg`
+  (_, i) => i + 1
 );
 
 // Location configuration
@@ -138,7 +136,7 @@ function HomePage() {
           />
 
           <GallerySection
-            images={GALLERY_IMAGES}
+            imageIndices={GALLERY_IMAGE_INDICES}
             previewCount={6}
             totalCount={12}
           />

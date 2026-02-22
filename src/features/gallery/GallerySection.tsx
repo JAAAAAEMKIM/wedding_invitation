@@ -1,19 +1,28 @@
 import { Link } from 'react-router-dom';
 
+// Image paths helper
+function getImagePaths(index: number) {
+  const name = `photo-${index}`;
+  return {
+    webp: `/assets/gallery-optimized/thumb/${name}.webp`,
+    jpg: `/assets/gallery-optimized/thumb/${name}.jpg`,
+  };
+}
+
 interface GallerySectionProps {
-  images: string[];
+  imageIndices: number[];
   title?: string;
   previewCount?: number;
   totalCount?: number;
 }
 
 export function GallerySection({
-  images,
+  imageIndices,
   title = 'GALLERY',
   previewCount = 6,
   totalCount = 12,
 }: GallerySectionProps) {
-  const previewImages = images.slice(0, previewCount);
+  const previewIndices = imageIndices.slice(0, previewCount);
 
   return (
     <section className="py-20 px-4 bg-gray-50">
@@ -44,19 +53,25 @@ export function GallerySection({
         {/* Preview Grid */}
         <Link to="/gallery" className="block">
           <div className="grid grid-cols-3 gap-1">
-            {previewImages.map((image, index) => (
-              <div
-                key={index}
-                className="aspect-square overflow-hidden"
-              >
-                <img
-                  src={image}
-                  alt={`Gallery ${index + 1}`}
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                  loading="lazy"
-                />
-              </div>
-            ))}
+            {previewIndices.map((imageIndex) => {
+              const paths = getImagePaths(imageIndex);
+              return (
+                <div
+                  key={imageIndex}
+                  className="aspect-square overflow-hidden"
+                >
+                  <picture>
+                    <source srcSet={paths.webp} type="image/webp" />
+                    <img
+                      src={paths.jpg}
+                      alt={`Gallery ${imageIndex}`}
+                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                      loading="lazy"
+                    />
+                  </picture>
+                </div>
+              );
+            })}
           </div>
         </Link>
 

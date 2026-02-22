@@ -1,20 +1,34 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 
-// All gallery images
-const ALL_IMAGES: string[] = Array.from(
-  { length: 12 },
-  (_, i) => `/assets/gallery/photo-${i + 1}.jpg`
-);
+// Image paths helper
+function getImagePaths(index: number) {
+  const name = `photo-${index}`;
+  return {
+    thumb: {
+      webp: `/assets/gallery-optimized/thumb/${name}.webp`,
+      jpg: `/assets/gallery-optimized/thumb/${name}.jpg`,
+    },
+    full: {
+      webp: `/assets/gallery-optimized/full/${name}.webp`,
+      jpg: `/assets/gallery-optimized/full/${name}.jpg`,
+    },
+  };
+}
+
+// All gallery image indices
+const ALL_IMAGE_INDICES = Array.from({ length: 12 }, (_, i) => i + 1);
 
 // Lazy loading image component with intersection observer
 function LazyImage({
-  src,
+  webpSrc,
+  jpgSrc,
   alt,
   className,
   onClick,
 }: {
-  src: string;
+  webpSrc: string;
+  jpgSrc: string;
   alt: string;
   className?: string;
   onClick?: () => void;
@@ -48,16 +62,19 @@ function LazyImage({
       onClick={onClick}
     >
       {isInView && (
-        <img
-          src={src}
-          alt={alt}
-          className={`w-full h-full object-cover transition-opacity duration-300 ${
-            isLoaded ? 'opacity-100' : 'opacity-0'
-          }`}
-          onLoad={() => setIsLoaded(true)}
-          loading="lazy"
-          decoding="async"
-        />
+        <picture>
+          <source srcSet={webpSrc} type="image/webp" />
+          <img
+            src={jpgSrc}
+            alt={alt}
+            className={`w-full h-full object-cover transition-opacity duration-300 ${
+              isLoaded ? 'opacity-100' : 'opacity-0'
+            }`}
+            onLoad={() => setIsLoaded(true)}
+            loading="lazy"
+            decoding="async"
+          />
+        </picture>
       )}
       {!isLoaded && isInView && (
         <div className="absolute inset-0 flex items-center justify-center">
@@ -69,34 +86,32 @@ function LazyImage({
 }
 
 export function GalleryPage() {
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const handleImageClick = (image: string) => {
-    setSelectedImage(image);
+  const handleImageClick = (index: number) => {
+    setSelectedIndex(index);
   };
 
   const handleClose = () => {
-    setSelectedImage(null);
+    setSelectedIndex(null);
   };
 
   const handlePrev = useCallback(() => {
-    if (!selectedImage) return;
-    const currentIndex = ALL_IMAGES.indexOf(selectedImage);
-    const prevIndex = currentIndex > 0 ? currentIndex - 1 : ALL_IMAGES.length - 1;
-    setSelectedImage(ALL_IMAGES[prevIndex] ?? null);
-  }, [selectedImage]);
+    if (selectedIndex === null) return;
+    const prevIndex = selectedIndex > 0 ? selectedIndex - 1 : ALL_IMAGE_INDICES.length - 1;
+    setSelectedIndex(prevIndex);
+  }, [selectedIndex]);
 
   const handleNext = useCallback(() => {
-    if (!selectedImage) return;
-    const currentIndex = ALL_IMAGES.indexOf(selectedImage);
-    const nextIndex = currentIndex < ALL_IMAGES.length - 1 ? currentIndex + 1 : 0;
-    setSelectedImage(ALL_IMAGES[nextIndex] ?? null);
-  }, [selectedImage]);
+    if (selectedIndex === null) return;
+    const nextIndex = selectedIndex < ALL_IMAGE_INDICES.length - 1 ? selectedIndex + 1 : 0;
+    setSelectedIndex(nextIndex);
+  }, [selectedIndex]);
 
   // Keyboard navigation for lightbox
   useEffect(() => {
-    if (!selectedImage) return;
+    if (selectedIndex === null) return;
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') handleClose();
@@ -106,7 +121,10 @@ export function GalleryPage() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedImage, handlePrev, handleNext]);
+  }, [selectedIndex, handlePrev, handleNext]);
+
+  // Get current selected image paths for lightbox
+  const selectedImagePaths = selectedIndex !== null ? getImagePaths(ALL_IMAGE_INDICES[selectedIndex]!) : null;
 
   return (
     <div className="min-h-screen bg-neutral-100">
@@ -145,30 +163,34 @@ export function GalleryPage() {
         {/* Gallery Grid */}
         <div className="p-2">
           <div className="grid grid-cols-2 gap-2">
-            {ALL_IMAGES.map((image, index) => (
-              <button
-                key={index}
-                onClick={() => handleImageClick(image)}
-                className="aspect-[3/4] overflow-hidden rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400 relative"
-                type="button"
-              >
-                <LazyImage
-                  src={image}
-                  alt={`Gallery ${index + 1}`}
-                  className="w-full h-full hover:scale-105 transition-transform duration-300"
-                />
-              </button>
-            ))}
+            {ALL_IMAGE_INDICES.map((imageIndex, idx) => {
+              const paths = getImagePaths(imageIndex);
+              return (
+                <button
+                  key={imageIndex}
+                  onClick={() => handleImageClick(idx)}
+                  className="aspect-[3/4] overflow-hidden rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400 relative"
+                  type="button"
+                >
+                  <LazyImage
+                    webpSrc={paths.thumb.webp}
+                    jpgSrc={paths.thumb.jpg}
+                    alt={`Gallery ${imageIndex}`}
+                    className="w-full h-full hover:scale-105 transition-transform duration-300"
+                  />
+                </button>
+              );
+            })}
           </div>
         </div>
 
         {/* Photo count */}
         <div className="py-8 text-center text-sm text-gray-400">
-          {ALL_IMAGES.length} Photos
+          {ALL_IMAGE_INDICES.length} Photos
         </div>
 
         {/* Lightbox Modal - Constrained to mobile container on desktop */}
-        {selectedImage && (
+        {selectedImagePaths && (
           <div
             className="fixed inset-0 z-[60] flex items-center justify-center"
             role="dialog"
@@ -218,16 +240,19 @@ export function GalleryPage() {
                 </svg>
               </button>
 
-              {/* Image */}
-              <img
-                src={selectedImage}
-                alt="Gallery full view"
-                className="max-w-full max-h-full object-contain px-4"
-              />
+              {/* Image - use full size for lightbox */}
+              <picture>
+                <source srcSet={selectedImagePaths.full.webp} type="image/webp" />
+                <img
+                  src={selectedImagePaths.full.jpg}
+                  alt="Gallery full view"
+                  className="max-w-full max-h-full object-contain px-4"
+                />
+              </picture>
 
               {/* Counter */}
               <div className="absolute bottom-[calc(1rem+env(safe-area-inset-bottom))] left-1/2 -translate-x-1/2 text-white/70 text-sm">
-                {ALL_IMAGES.indexOf(selectedImage) + 1} / {ALL_IMAGES.length}
+                {selectedIndex !== null ? selectedIndex + 1 : 0} / {ALL_IMAGE_INDICES.length}
               </div>
             </div>
           </div>
