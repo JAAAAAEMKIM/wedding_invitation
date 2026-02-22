@@ -120,10 +120,6 @@ async function main() {
 
     console.log('=' .repeat(50));
     console.log('\n✨ 완료!\n');
-    console.log('다음 단계:');
-    console.log('1. App.tsx에서 이미지 경로를 optimized 폴더로 변경');
-    console.log('2. GalleryPage에서 thumb/full 분리 사용');
-    console.log('3. <picture> 태그로 WebP 우선 로드\n');
   } catch (error) {
     console.error('❌ 에러:', error.message);
     process.exit(1);
