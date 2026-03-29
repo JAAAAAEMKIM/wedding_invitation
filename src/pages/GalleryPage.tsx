@@ -17,7 +17,7 @@ function getImagePaths(index: number) {
 }
 
 // All gallery image indices
-const ALL_IMAGE_INDICES = Array.from({ length: 12 }, (_, i) => i + 1);
+const ALL_IMAGE_INDICES = Array.from({ length: 12 }, (_, i) => i + 1).filter((i) => i !== 10);
 
 // Lazy loading image component with intersection observer
 function LazyImage({

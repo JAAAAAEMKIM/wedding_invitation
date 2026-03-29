@@ -21,11 +21,11 @@ const STOP_MOTION_FRAMES: string[] = Array.from(
   (_, i) => `/assets/gallery-optimized/thumb/photo-${i + 1}.webp`
 );
 
-// Gallery image indices (1-12)
+// Gallery image indices (1-12, excluding 10)
 const GALLERY_IMAGE_INDICES: number[] = Array.from(
   { length: 12 },
   (_, i) => i + 1
-);
+).filter((i) => i !== 10);
 
 // Location configuration
 const WEDDING_LOCATION: LocationInfo = {
@@ -138,7 +138,7 @@ function HomePage() {
           <GallerySection
             imageIndices={GALLERY_IMAGE_INDICES}
             previewCount={6}
-            totalCount={12}
+            totalCount={11}
           />
 
           <GuestbookSection />
