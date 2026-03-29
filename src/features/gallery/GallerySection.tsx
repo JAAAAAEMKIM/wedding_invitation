@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 function getImagePaths(index: number) {
   const name = `photo-${index}`;
   return {
-    webp: `/assets/gallery-optimized/thumb/${name}.webp`,
-    jpg: `/assets/gallery-optimized/thumb/${name}.jpg`,
+    webp: `/assets/gallery/${name}.jpg`,
+    jpg: `/assets/gallery/${name}.jpg`,
   };
 }
 

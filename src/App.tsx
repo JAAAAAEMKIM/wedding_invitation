@@ -18,7 +18,7 @@ const NAVER_MAP_CLIENT_ID = '5pefwq1ob6';
 // Stop-motion frames using optimized images
 const STOP_MOTION_FRAMES: string[] = Array.from(
   { length: 6 },
-  (_, i) => `/assets/gallery-optimized/thumb/photo-${i + 1}.webp`
+  (_, i) => `/assets/gallery/photo-${i + 1}.jpg`
 );
 
 // Gallery image indices (1-12, excluding 10)
