@@ -15,10 +15,10 @@ import type { AppPhase, LocationInfo, AccountSection } from '@/types';
 // Configuration - Replace with your actual data
 const NAVER_MAP_CLIENT_ID = '5pefwq1ob6';
 
-// Stop-motion frames using original frame images
+// Stop-motion frames using optimized images
 const STOP_MOTION_FRAMES: string[] = Array.from(
   { length: 30 },
-  (_, i) => `/assets/frames/frame-${String(i + 1).padStart(3, '0')}.jpg`
+  (_, i) => `/assets/frames-optimized/frame-${String(i + 1).padStart(3, '0')}.webp`
 );
 
 // Gallery image indices (1-12, excluding 10)
@@ -64,21 +64,14 @@ function HomePage() {
   const [showContent, setShowContent] = useState(false);
 
   // Preload stop-motion frames
-  const preloaderState = useAssetPreloader(STOP_MOTION_FRAMES, {
-    onComplete: () => {
-      // Small delay before transitioning to animation
-      setTimeout(() => {
-        setPhase('animating');
-      }, 300);
-    },
-  });
+  const preloaderState = useAssetPreloader(STOP_MOTION_FRAMES);
 
   // Lock scroll during loading and animation phases
   useScrollLock(phase !== 'content');
 
-  // Handle preloader fade completion
+  // Handle preloader fade completion - transition to animation after fade out
   const handlePreloaderFadeComplete = useCallback(() => {
-    // Preloader has faded out, animation should be playing
+    setPhase('animating');
   }, []);
 
   // Handle animation completion
