@@ -16,7 +16,7 @@ export function LandingSection({
       {isAnimating && frames.length > 0 ? (
         <StopMotionPlayer
           frames={frames}
-          fps={1}
+          fps={10}
           autoPlay={true}
           loop={false}
           onComplete={onAnimationComplete}

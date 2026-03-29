@@ -15,10 +15,18 @@ import type { AppPhase, LocationInfo, AccountSection } from '@/types';
 // Configuration - Replace with your actual data
 const NAVER_MAP_CLIENT_ID = '5pefwq1ob6';
 
-// Stop-motion frames using optimized images
-const STOP_MOTION_FRAMES: string[] = Array.from(
-  { length: 30 },
-  (_, i) => `/assets/frames-optimized/frame-${String(i + 1).padStart(3, '0')}.webp`
+// Stop-motion frames: 1,2,3,4,5 (4 each) + 7,11 (5 each) = 30 frames at 10fps = 3s
+const STOP_MOTION_FRAME_SEQUENCE = [
+  ...Array(4).fill('frame-001'),
+  ...Array(4).fill('frame-002'),
+  ...Array(4).fill('frame-003'),
+  ...Array(4).fill('frame-004'),
+  ...Array(4).fill('frame-005'),
+  ...Array(5).fill('frame-007'),
+  ...Array(5).fill('frame-011'),
+];
+const STOP_MOTION_FRAMES: string[] = STOP_MOTION_FRAME_SEQUENCE.map(
+  (name) => `/assets/frames-optimized/${name}.webp`
 );
 
 // Gallery image indices (1-12, excluding 10)
