@@ -15,10 +15,10 @@ import type { AppPhase, LocationInfo, AccountSection } from '@/types';
 // Configuration - Replace with your actual data
 const NAVER_MAP_CLIENT_ID = '5pefwq1ob6';
 
-// Stop-motion frames using optimized images
+// Stop-motion frames using original frame images
 const STOP_MOTION_FRAMES: string[] = Array.from(
-  { length: 6 },
-  (_, i) => `/assets/gallery/photo-${i + 1}.jpg`
+  { length: 30 },
+  (_, i) => `/assets/frames/frame-${String(i + 1).padStart(3, '0')}.jpg`
 );
 
 // Gallery image indices (1-12, excluding 10)
