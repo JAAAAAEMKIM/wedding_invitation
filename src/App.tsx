@@ -129,14 +129,17 @@ function HomePage() {
 
   // Snap scroll behavior: < 1/4 viewport → snap back to top, >= 1/4 → snap to content
   const isSnapping = useRef(false);
+  // Fixed viewport height to avoid jank from mobile browser bar changes
+  const fixedVhRef = useRef(window.innerHeight);
 
   useEffect(() => {
     if (phase !== 'content') return;
 
+    const vh = fixedVhRef.current;
+
     const handleScrollEnd = () => {
       if (isSnapping.current) return;
       const scrollY = window.scrollY;
-      const vh = window.innerHeight;
       // Only snap in the landing-to-content boundary zone
       if (scrollY > 0 && scrollY < vh) {
         isSnapping.current = true;
@@ -148,7 +151,20 @@ function HomePage() {
       }
     };
 
-    window.addEventListener('scrollend', handleScrollEnd);
+    // scrollend with fallback for iOS Safari
+    const hasScrollEnd = 'onscrollend' in window;
+    if (hasScrollEnd) {
+      window.addEventListener('scrollend', handleScrollEnd);
+    } else {
+      let timer: ReturnType<typeof setTimeout>;
+      const handleScroll = () => {
+        clearTimeout(timer);
+        timer = setTimeout(handleScrollEnd, 100);
+      };
+      window.addEventListener('scroll', handleScroll, { passive: true });
+      return () => window.removeEventListener('scroll', handleScroll);
+    }
+
     return () => window.removeEventListener('scrollend', handleScrollEnd);
   }, [phase]);
 
@@ -173,9 +189,6 @@ function HomePage() {
           />
         )}
 
-        {/* Music Player - after loading */}
-        {phase !== 'loading' && <MusicPlayer src="/assets/bgm.mp3" />}
-
         {/* Landing Section - Fixed background layer */}
         {phase !== 'loading' && (
           <LandingSection
@@ -186,7 +199,7 @@ function HomePage() {
         )}
 
         {/* Spacer for fixed landing section */}
-        {phase !== 'loading' && <div className="h-screen" />}
+        {phase !== 'loading' && <div style={{ height: '100svh' }} />}
 
         {/* Content Sections - Layer 2, scrolls over landing */}
         <div
@@ -238,10 +251,13 @@ function HomePage() {
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/gallery" element={<GalleryPage />} />
-    </Routes>
+    <>
+      <MusicPlayer src="/assets/bgm.mp3" />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/gallery" element={<GalleryPage />} />
+      </Routes>
+    </>
   );
 }
 

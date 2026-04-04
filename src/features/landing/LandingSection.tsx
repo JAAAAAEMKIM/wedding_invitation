@@ -13,14 +13,15 @@ export function LandingSection({ mainImage, onQuadrupleClick, showDate = true }:
   const [blurAmount, setBlurAmount] = useState(0);
   const rafRef = useRef<number>(0);
   const clickTimesRef = useRef<number[]>([]);
+  // Capture viewport height once to avoid jank from mobile browser bar changes
+  const fixedVhRef = useRef(window.innerHeight);
 
   useEffect(() => {
     const handleScroll = () => {
       if (rafRef.current) return;
       rafRef.current = requestAnimationFrame(() => {
         const scrollY = window.scrollY;
-        const viewportHeight = window.innerHeight;
-        const ratio = Math.min(scrollY / viewportHeight, 1);
+        const ratio = Math.min(scrollY / fixedVhRef.current, 1);
         setBlurAmount(ratio * 20);
         rafRef.current = 0;
       });
@@ -57,8 +58,8 @@ export function LandingSection({ mainImage, onQuadrupleClick, showDate = true }:
 
   return (
     <div
-      className="fixed inset-0 w-full h-screen bg-white dark:bg-neutral-900 flex items-center justify-center z-0"
-      style={{ filter: `blur(${blurAmount}px)` }}
+      className="fixed inset-0 w-full bg-white dark:bg-neutral-900 flex items-center justify-center z-0"
+      style={{ height: '100svh', filter: `blur(${blurAmount}px)` }}
     >
       {/* Image wrapper - sized to actual image */}
       <div className="relative max-w-full max-h-full">
