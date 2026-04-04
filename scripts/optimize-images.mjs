@@ -63,6 +63,11 @@ async function processGallery() {
 
   const { input, output, sizes } = CONFIG.gallery;
 
+  if (!existsSync(input)) {
+    console.log(`⏭️  ${input} 디렉토리 없음 — 건너뜀\n`);
+    return;
+  }
+
   // 썸네일, 풀사이즈 디렉토리 생성
   const thumbDir = path.join(output, 'thumb');
   const fullDir = path.join(output, 'full');
