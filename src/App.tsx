@@ -1,6 +1,6 @@
 import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { useAssetPreloader, useScrollLock, useDarkMode } from '@/hooks';
+import { useAssetPreloader, useScrollLock, useDarkMode, useQueryFlags } from '@/hooks';
 import { Preloader } from '@/components';
 import {
   LandingSection,
@@ -35,35 +35,43 @@ const WEDDING_LOCATION: LocationInfo = {
   },
 };
 
-// Account sections
-const ACCOUNT_SECTIONS: AccountSection[] = [
-  {
-    title: '신랑측 계좌번호',
-    accounts: [
-      { bank: '신한은행', accountNumber: '110-507-619496', holder: '김재민' },
-      { bank: '국민은행', accountNumber: '123-45-6789012', holder: '김봉희' },
-    ],
-  },
-  {
-    title: '신부측 계좌번호',
-    accounts: [
-      { bank: '신한은행', accountNumber: '1002-123-456789', holder: '안소연' },
-      {
-        bank: '하나은행',
-        accountNumber: '123-456789-01234',
-        holder: '안정용',
-      },
-    ],
-  },
-];
+// Individual accounts
+const ACCOUNTS = {
+  groom: { bank: '신한은행', accountNumber: '110-507-619496', holder: '김재민' },
+  groomFather: { bank: '국민은행', accountNumber: '123-45-6789012', holder: '김봉희' },
+  groomMother: { bank: '국민은행', accountNumber: '123-45-6789013', holder: '우수경' },
+  bride: { bank: '신한은행', accountNumber: '1002-123-456789', holder: '안소연' },
+  brideFather: { bank: '하나은행', accountNumber: '123-456789-01234', holder: '안정용' },
+  brideMother: { bank: '하나은행', accountNumber: '123-456789-01235', holder: '안유경' },
+};
 
 // Track if assets have already been loaded in this session
 let assetsLoaded = false;
 
 function HomePage() {
   const { isDark, toggle: toggleDarkMode } = useDarkMode();
+  const { has } = useQueryFlags();
   const [phase, setPhase] = useState<AppPhase>(assetsLoaded ? 'content' : 'loading');
   const [showContent, setShowContent] = useState(assetsLoaded);
+
+  // Build account sections based on query flags
+  const accountSections = useMemo(() => {
+    const groomAccounts = [ACCOUNTS.groom];
+    if (has('gf')) groomAccounts.push(ACCOUNTS.groomFather);
+    if (has('gm')) groomAccounts.push(ACCOUNTS.groomMother);
+
+    const brideAccounts = [ACCOUNTS.bride];
+    if (has('bf')) brideAccounts.push(ACCOUNTS.brideFather);
+    if (has('bm')) brideAccounts.push(ACCOUNTS.brideMother);
+
+    return [
+      { title: '신랑측 계좌번호', accounts: groomAccounts },
+      { title: '신부측 계좌번호', accounts: brideAccounts },
+    ] as AccountSection[];
+  }, [has]);
+
+  const showLocation = !has('hl');
+  const showDate = !has('hd');
 
   const mainImage = isDark ? MAIN_IMAGE_DARK : MAIN_IMAGE_LIGHT;
 
@@ -134,7 +142,7 @@ function HomePage() {
 
         {/* Landing Section - Fixed background layer */}
         {phase !== 'loading' && (
-          <LandingSection mainImage={mainImage} onQuadrupleClick={toggleDarkMode} />
+          <LandingSection mainImage={mainImage} onQuadrupleClick={toggleDarkMode} showDate={showDate} />
         )}
 
         {/* Spacer for fixed landing section */}
@@ -161,11 +169,13 @@ function HomePage() {
 
           <GuestbookSection />
 
-          <LocationSection
-            location={WEDDING_LOCATION}
-            naverClientId={NAVER_MAP_CLIENT_ID}
-            accountSections={ACCOUNT_SECTIONS}
-          />
+          {showLocation && (
+            <LocationSection
+              location={WEDDING_LOCATION}
+              naverClientId={NAVER_MAP_CLIENT_ID}
+              accountSections={accountSections}
+            />
+          )}
 
           {/* Footer */}
           <footer className="py-8 text-center text-xs text-gray-400 dark:text-gray-500">

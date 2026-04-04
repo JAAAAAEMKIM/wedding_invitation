@@ -3,12 +3,13 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 interface LandingSectionProps {
   mainImage: string;
   onQuadrupleClick?: () => void;
+  showDate?: boolean;
 }
 
 const RAPID_CLICK_THRESHOLD = 500; // ms between clicks
 const REQUIRED_CLICKS = 4;
 
-export function LandingSection({ mainImage, onQuadrupleClick }: LandingSectionProps) {
+export function LandingSection({ mainImage, onQuadrupleClick, showDate = true }: LandingSectionProps) {
   const [blurAmount, setBlurAmount] = useState(0);
   const rafRef = useRef<number>(0);
   const clickTimesRef = useRef<number[]>([]);
@@ -68,12 +69,14 @@ export function LandingSection({ mainImage, onQuadrupleClick }: LandingSectionPr
           onClick={handleImageClick}
         />
         {/* Date text - 10px above image bottom */}
-        <div
-          className="absolute right-4 text-gray-500 dark:text-gray-400 text-sm font-light"
-          style={{ fontFamily: "'Hanken Grotesk', sans-serif", bottom: '10px' }}
-        >
-          May 16, 2026 at 6:00 PM
-        </div>
+        {showDate && (
+          <div
+            className="absolute right-4 text-gray-500 dark:text-gray-400 text-sm font-light"
+            style={{ fontFamily: "'Hanken Grotesk', sans-serif", bottom: '10px' }}
+          >
+            May 16, 2026 at 6:00 PM
+          </div>
+        )}
 
         {/* Scroll indicator - chevron */}
         <div className="absolute left-1/2 -translate-x-1/2 animate-bounce" style={{ bottom: '10px' }}>
