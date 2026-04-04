@@ -51,24 +51,24 @@ export function LocationSection({
   };
 
   return (
-    <section className="py-20 px-4 bg-gray-50">
+    <section className="py-20 px-4 bg-gray-50 dark:bg-neutral-800">
       <div className="max-w-md mx-auto">
         {/* Title */}
-        <h2 className="text-sm tracking-[0.3em] text-gray-500 text-center mb-8">
+        <h2 className="text-sm tracking-[0.3em] text-gray-500 dark:text-gray-400 text-center mb-8">
           LOCATION
         </h2>
 
         {/* Location Info */}
         <div className="text-center mb-6">
-          <h3 className="text-lg font-medium text-gray-800 mb-2">
+          <h3 className="text-lg font-medium text-gray-800 dark:text-gray-200 mb-2">
             {location.name}
           </h3>
           {location.floor && location.hall && (
-            <p className="text-sm text-gray-600 mb-1">
+            <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
               {location.floor} {location.hall}
             </p>
           )}
-          <p className="text-sm text-gray-500">{location.address}</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400">{location.address}</p>
         </div>
 
         {/* Map */}
@@ -87,14 +87,14 @@ export function LocationSection({
         <div className="flex gap-2 mb-12">
           <button
             onClick={openNaverMap}
-            className="flex-1 py-3 border border-gray-300 rounded-lg text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+            className="flex-1 py-3 border border-gray-300 dark:border-gray-600 rounded-lg text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-neutral-700 transition-colors"
             type="button"
           >
             네이버 지도
           </button>
           <button
             onClick={openKakaoMap}
-            className="flex-1 py-3 border border-gray-300 rounded-lg text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+            className="flex-1 py-3 border border-gray-300 dark:border-gray-600 rounded-lg text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-neutral-700 transition-colors"
             type="button"
           >
             카카오맵
@@ -104,7 +104,7 @@ export function LocationSection({
         {/* Account Section */}
         {accountSections.length > 0 && (
           <>
-            <h2 className="text-sm tracking-[0.3em] text-gray-500 text-center mb-8">
+            <h2 className="text-sm tracking-[0.3em] text-gray-500 dark:text-gray-400 text-center mb-8">
               ACCOUNT
             </h2>
 
@@ -112,19 +112,19 @@ export function LocationSection({
               {accountSections.map((section) => (
                 <div
                   key={section.title}
-                  className="border border-gray-200 rounded-lg overflow-hidden"
+                  className="border border-gray-200 dark:border-gray-600 rounded-lg overflow-hidden"
                 >
                   {/* Accordion Header */}
                   <button
                     onClick={() => handleAccordionToggle(section.title)}
-                    className="w-full px-4 py-4 flex justify-between items-center bg-white hover:bg-gray-50 transition-colors"
+                    className="w-full px-4 py-4 flex justify-between items-center bg-white dark:bg-neutral-800 hover:bg-gray-50 dark:hover:bg-neutral-700 transition-colors"
                     type="button"
                   >
-                    <span className="font-medium text-gray-800 text-sm">
+                    <span className="font-medium text-gray-800 dark:text-gray-200 text-sm">
                       {section.title}
                     </span>
                     <svg
-                      className={`w-5 h-5 text-gray-400 transition-transform duration-200 ${
+                      className={`w-5 h-5 text-gray-400 dark:text-gray-500 transition-transform duration-200 ${
                         expandedSection === section.title ? 'rotate-180' : ''
                       }`}
                       fill="none"
@@ -142,26 +142,26 @@ export function LocationSection({
 
                   {/* Accordion Content */}
                   {expandedSection === section.title && (
-                    <div className="px-4 pb-4 space-y-3 bg-white">
+                    <div className="px-4 pb-4 space-y-3 bg-white dark:bg-neutral-800">
                       {section.accounts.map((account, index) => (
                         <div
                           key={index}
-                          className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
+                          className="flex items-center justify-between p-3 bg-gray-50 dark:bg-neutral-700 rounded-lg"
                         >
                           <div>
-                            <p className="text-xs text-gray-500 mb-1">
+                            <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">
                               {account.bank}
                             </p>
-                            <p className="text-sm text-gray-800">
+                            <p className="text-sm text-gray-800 dark:text-gray-200">
                               {account.accountNumber}
                             </p>
-                            <p className="text-xs text-gray-500 mt-1">
+                            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                               예금주: {account.holder}
                             </p>
                           </div>
                           <button
                             onClick={() => handleCopyAccount(account.accountNumber, account.holder)}
-                            className="px-3 py-1.5 text-xs border border-gray-300 rounded-md hover:bg-gray-100 transition-colors whitespace-nowrap"
+                            className="px-3 py-1.5 text-xs border border-gray-300 dark:border-gray-500 rounded-md hover:bg-gray-100 dark:hover:bg-neutral-600 transition-colors whitespace-nowrap dark:text-gray-300"
                             type="button"
                           >
                             {copiedAccount === account.accountNumber

@@ -62,10 +62,10 @@ export function GuestbookSection({
   };
 
   return (
-    <section className="py-20 px-4 bg-white">
+    <section className="py-20 px-4 bg-white dark:bg-neutral-900">
       <div className="max-w-md mx-auto">
         {/* Title */}
-        <h2 className="text-sm tracking-[0.3em] text-gray-500 text-center mb-8">
+        <h2 className="text-sm tracking-[0.3em] text-gray-500 dark:text-gray-400 text-center mb-8">
           {title}
         </h2>
 
@@ -79,7 +79,7 @@ export function GuestbookSection({
               value={formData.name}
               onChange={handleChange}
               autoComplete="name"
-              className="w-full flex-1 px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-300"
+              className="w-full flex-1 px-4 py-3 border border-gray-200 dark:border-gray-600 rounded-lg text-sm bg-white dark:bg-neutral-800 dark:text-gray-100 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-300 dark:focus:ring-gray-600"
               required
             />
             <input
@@ -89,7 +89,7 @@ export function GuestbookSection({
               value={formData.password}
               onChange={handleChange}
               autoComplete="new-password"
-              className="w-full flex-1 px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-300"
+              className="w-full flex-1 px-4 py-3 border border-gray-200 dark:border-gray-600 rounded-lg text-sm bg-white dark:bg-neutral-800 dark:text-gray-100 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-300 dark:focus:ring-gray-600"
               required
             />
           </div>
@@ -99,13 +99,13 @@ export function GuestbookSection({
             value={formData.message}
             onChange={handleChange}
             rows={4}
-            className="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm resize-none focus:outline-none focus:ring-2 focus:ring-gray-300"
+            className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 rounded-lg text-sm bg-white dark:bg-neutral-800 dark:text-gray-100 dark:placeholder-gray-500 resize-none focus:outline-none focus:ring-2 focus:ring-gray-300 dark:focus:ring-gray-600"
             required
           />
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full py-3 bg-gray-800 text-white text-sm rounded-lg hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-3 border border-gray-300 dark:border-gray-600 rounded-lg text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-neutral-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isSubmitting ? '등록 중...' : '작성하기'}
           </button>
@@ -114,28 +114,28 @@ export function GuestbookSection({
         {/* Entries List */}
         <div className="space-y-4">
           {isLoading ? (
-            <div className="text-center text-gray-400 text-sm py-8">
+            <div className="text-center text-gray-400 dark:text-gray-500 text-sm py-8">
               불러오는 중...
             </div>
           ) : entries.length === 0 ? (
-            <div className="text-center text-gray-400 text-sm py-8">
+            <div className="text-center text-gray-400 dark:text-gray-500 text-sm py-8">
               첫 번째 축하 메시지를 남겨주세요!
             </div>
           ) : (
             entries.map((entry) => (
               <div
                 key={entry.id}
-                className="p-4 bg-gray-50 rounded-lg"
+                className="p-4 bg-gray-50 dark:bg-neutral-800 rounded-lg"
               >
                 <div className="flex justify-between items-start mb-2">
-                  <span className="font-medium text-gray-800 text-sm">
+                  <span className="font-medium text-gray-800 dark:text-gray-200 text-sm">
                     {entry.name}
                   </span>
-                  <span className="text-xs text-gray-400">
+                  <span className="text-xs text-gray-400 dark:text-gray-500">
                     {formatDate(entry.createdAt)}
                   </span>
                 </div>
-                <p className="text-sm text-gray-600 leading-relaxed">
+                <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
                   {entry.message}
                 </p>
               </div>

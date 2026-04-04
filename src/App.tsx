@@ -1,6 +1,6 @@
 import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { useAssetPreloader, useScrollLock } from '@/hooks';
+import { useAssetPreloader, useScrollLock, useDarkMode } from '@/hooks';
 import { Preloader } from '@/components';
 import {
   LandingSection,
@@ -15,8 +15,9 @@ import type { AppPhase, LocationInfo, AccountSection } from '@/types';
 // Configuration - Replace with your actual data
 const NAVER_MAP_CLIENT_ID = '5pefwq1ob6';
 
-const MAIN_IMAGE = '/assets/main.png';
-const PRELOAD_ASSETS: string[] = [MAIN_IMAGE];
+const MAIN_IMAGE_LIGHT = '/assets/main.png';
+const MAIN_IMAGE_DARK = '/assets/main.dark.png';
+const PRELOAD_ASSETS: string[] = [MAIN_IMAGE_LIGHT, MAIN_IMAGE_DARK];
 
 // Gallery image indices (1-16)
 const GALLERY_IMAGE_INDICES: number[] = Array.from(
@@ -60,10 +61,13 @@ const ACCOUNT_SECTIONS: AccountSection[] = [
 let assetsLoaded = false;
 
 function HomePage() {
+  const { isDark, toggle: toggleDarkMode } = useDarkMode();
   const [phase, setPhase] = useState<AppPhase>(assetsLoaded ? 'content' : 'loading');
   const [showContent, setShowContent] = useState(assetsLoaded);
 
-  // Preload main image
+  const mainImage = isDark ? MAIN_IMAGE_DARK : MAIN_IMAGE_LIGHT;
+
+  // Preload main images (both light and dark)
   const preloaderState = useAssetPreloader(PRELOAD_ASSETS);
 
   // Wait for fonts to be loaded before completing preloader
@@ -116,9 +120,9 @@ function HomePage() {
   }, [phase, showContent]);
 
   return (
-    <div className="min-h-screen bg-neutral-100">
+    <div className="min-h-screen bg-neutral-100 dark:bg-neutral-900">
       {/* Mobile Container */}
-      <div className="mx-auto min-h-screen bg-white relative">
+      <div className="mx-auto min-h-screen bg-white dark:bg-neutral-900 relative">
         {/* Preloader Overlay */}
         {phase === 'loading' && (
           <Preloader
@@ -130,16 +134,16 @@ function HomePage() {
 
         {/* Landing Section - Fixed background layer */}
         {phase !== 'loading' && (
-          <LandingSection mainImage={MAIN_IMAGE} />
+          <LandingSection mainImage={mainImage} onQuadrupleClick={toggleDarkMode} />
         )}
 
         {/* Spacer for fixed landing section */}
         {phase !== 'loading' && <div className="h-screen" />}
 
         {/* Content Sections - Layer 2, scrolls over landing */}
-        <div className={`relative z-10 bg-white ${contentVisibilityClass}`}>
+        <div className={`relative z-10 bg-white dark:bg-neutral-900 ${contentVisibilityClass}`}>
           {/* Soft top edge - blurred shadow */}
-          <div className="absolute -top-8 left-0 right-0 h-8 pointer-events-none" style={{ background: 'linear-gradient(to bottom, transparent, white)' }} />
+          <div className="absolute -top-8 left-0 right-0 h-8 pointer-events-none" style={{ background: isDark ? 'linear-gradient(to bottom, transparent, rgb(23,23,23))' : 'linear-gradient(to bottom, transparent, white)' }} />
           <InvitationSection
             groomName="김재민"
             brideName="안소연"
@@ -164,7 +168,7 @@ function HomePage() {
           />
 
           {/* Footer */}
-          <footer className="py-8 text-center text-xs text-gray-400">
+          <footer className="py-8 text-center text-xs text-gray-400 dark:text-gray-500">
             <p>Made with ♥</p>
           </footer>
         </div>

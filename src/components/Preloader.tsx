@@ -31,27 +31,27 @@ export function Preloader({ progress, isComplete, onFadeComplete }: PreloaderPro
 
   return (
     <div
-      className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-white transition-opacity duration-500 ${
+      className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-white dark:bg-neutral-900 transition-opacity duration-500 ${
         isFading ? 'opacity-0' : 'opacity-100'
       }`}
     >
       {/* Logo or Title */}
       <div className="mb-8">
-        <h1 className="text-2xl font-serif text-gray-800 tracking-widest">
+        <h1 className="text-2xl font-serif text-gray-800 dark:text-gray-200 tracking-widest">
           WEDDING
         </h1>
       </div>
 
       {/* Progress Bar */}
-      <div className="w-48 h-1 bg-gray-200 rounded-full overflow-hidden">
+      <div className="w-48 h-1 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
         <div
-          className="h-full bg-gray-800 transition-all duration-300 ease-out"
+          className="h-full bg-gray-800 dark:bg-gray-200 transition-all duration-300 ease-out"
           style={{ width: `${progress}%` }}
         />
       </div>
 
       {/* Progress Text */}
-      <div className="mt-4 text-sm text-gray-500 font-mono">
+      <div className="mt-4 text-sm text-gray-500 dark:text-gray-400 font-mono">
         {progress}%
       </div>
     </div>

@@ -1,12 +1,17 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 
 interface LandingSectionProps {
   mainImage: string;
+  onQuadrupleClick?: () => void;
 }
 
-export function LandingSection({ mainImage }: LandingSectionProps) {
+const RAPID_CLICK_THRESHOLD = 500; // ms between clicks
+const REQUIRED_CLICKS = 4;
+
+export function LandingSection({ mainImage, onQuadrupleClick }: LandingSectionProps) {
   const [blurAmount, setBlurAmount] = useState(0);
   const rafRef = useRef<number>(0);
+  const clickTimesRef = useRef<number[]>([]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -14,9 +19,8 @@ export function LandingSection({ mainImage }: LandingSectionProps) {
       rafRef.current = requestAnimationFrame(() => {
         const scrollY = window.scrollY;
         const viewportHeight = window.innerHeight;
-        // 0 ~ 1 비율로 blur 계산 (한 화면 스크롤하면 max blur)
         const ratio = Math.min(scrollY / viewportHeight, 1);
-        setBlurAmount(ratio * 20); // max 20px blur
+        setBlurAmount(ratio * 20);
         rafRef.current = 0;
       });
     };
@@ -28,9 +32,31 @@ export function LandingSection({ mainImage }: LandingSectionProps) {
     };
   }, []);
 
+  const handleImageClick = useCallback(() => {
+    const now = Date.now();
+    const clicks = clickTimesRef.current;
+
+    // Remove clicks older than threshold
+    while (clicks.length > 0 && now - clicks[0]! > RAPID_CLICK_THRESHOLD * REQUIRED_CLICKS) {
+      clicks.shift();
+    }
+
+    clicks.push(now);
+
+    // Check if last N clicks are all within threshold of each other
+    if (clicks.length >= REQUIRED_CLICKS) {
+      const recentClicks = clicks.slice(-REQUIRED_CLICKS);
+      const timeDiff = recentClicks[REQUIRED_CLICKS - 1]! - recentClicks[0]!;
+      if (timeDiff < RAPID_CLICK_THRESHOLD * (REQUIRED_CLICKS - 1)) {
+        clickTimesRef.current = [];
+        onQuadrupleClick?.();
+      }
+    }
+  }, [onQuadrupleClick]);
+
   return (
     <div
-      className="fixed inset-0 w-full h-screen bg-white flex items-center justify-center z-0"
+      className="fixed inset-0 w-full h-screen bg-white dark:bg-neutral-900 flex items-center justify-center z-0"
       style={{ filter: `blur(${blurAmount}px)` }}
     >
       {/* Image wrapper - sized to actual image */}
@@ -38,11 +64,12 @@ export function LandingSection({ mainImage }: LandingSectionProps) {
         <img
           src={mainImage}
           alt="Wedding"
-          className="max-w-full max-h-screen block"
+          className="max-w-full max-h-screen block cursor-default"
+          onClick={handleImageClick}
         />
         {/* Date text - 10px above image bottom */}
         <div
-          className="absolute right-4 text-gray-500 text-sm font-light"
+          className="absolute right-4 text-gray-500 dark:text-gray-400 text-sm font-light"
           style={{ fontFamily: "'Hanken Grotesk', sans-serif", bottom: '10px' }}
         >
           May 16, 2026 at 6:00 PM
@@ -56,7 +83,7 @@ export function LandingSection({ mainImage }: LandingSectionProps) {
             viewBox="0 0 24 14"
             fill="none"
             stroke="currentColor"
-            className="text-gray-400/60"
+            className="text-gray-400/60 dark:text-gray-500/60"
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"

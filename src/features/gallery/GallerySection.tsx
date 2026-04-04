@@ -25,14 +25,14 @@ export function GallerySection({
   const previewIndices = imageIndices.slice(0, previewCount);
 
   return (
-    <section className="py-20 px-4 bg-gray-50">
+    <section className="py-20 px-4 bg-gray-50 dark:bg-neutral-800">
       <div className="max-w-md mx-auto">
         {/* Title with Link */}
         <Link
           to="/gallery"
           className="block text-center mb-8 group"
         >
-          <h2 className="text-sm tracking-[0.3em] text-gray-500 group-hover:text-gray-700 transition-colors">
+          <h2 className="text-sm tracking-[0.3em] text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">
             {title}
           </h2>
         </Link>
@@ -65,7 +65,7 @@ export function GallerySection({
         {/* View All Button */}
         <Link
           to="/gallery"
-          className="mt-6 block w-full py-3 text-center text-sm text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-100 transition-colors"
+          className="mt-6 block w-full py-3 text-center text-sm text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-100 dark:hover:bg-neutral-700 transition-colors"
         >
           사진 모두 보기 ({totalCount})
         </Link>

@@ -58,7 +58,7 @@ function LazyImage({
   return (
     <div
       ref={imgRef}
-      className={`bg-gray-100 ${className ?? ''}`}
+      className={`bg-gray-100 dark:bg-neutral-800 ${className ?? ''}`}
       onClick={onClick}
     >
       {isInView && (
@@ -127,18 +127,18 @@ export function GalleryPage() {
   const selectedImagePaths = selectedIndex !== null ? getImagePaths(ALL_IMAGE_INDICES[selectedIndex]!) : null;
 
   return (
-    <div className="min-h-screen bg-neutral-100">
+    <div className="min-h-screen bg-neutral-100 dark:bg-neutral-900">
       {/* Mobile Container - Same as main page */}
       <div
         ref={containerRef}
-        className="max-w-[430px] mx-auto min-h-screen bg-white shadow-xl relative"
+        className="max-w-[430px] mx-auto min-h-screen bg-white dark:bg-neutral-900 shadow-xl relative"
       >
         {/* Header */}
-        <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-sm border-b border-gray-100">
+        <header className="sticky top-0 z-40 bg-white/80 dark:bg-neutral-900/80 backdrop-blur-sm border-b border-gray-100 dark:border-gray-800">
           <div className="flex items-center justify-between px-4 py-3">
             <Link
               to="/"
-              className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
+              className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 transition-colors"
             >
               <svg
                 className="w-5 h-5"
@@ -155,7 +155,7 @@ export function GalleryPage() {
               </svg>
               <span className="text-sm">돌아가기</span>
             </Link>
-            <h1 className="text-sm tracking-[0.3em] text-gray-500">GALLERY</h1>
+            <h1 className="text-sm tracking-[0.3em] text-gray-500 dark:text-gray-400">GALLERY</h1>
             <div className="w-16" /> {/* Spacer for centering */}
           </div>
         </header>
@@ -185,7 +185,7 @@ export function GalleryPage() {
         </div>
 
         {/* Photo count */}
-        <div className="py-8 text-center text-sm text-gray-400">
+        <div className="py-8 text-center text-sm text-gray-400 dark:text-gray-500">
           {ALL_IMAGE_INDICES.length} Photos
         </div>
 

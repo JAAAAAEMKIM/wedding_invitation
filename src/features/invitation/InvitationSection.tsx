@@ -18,48 +18,48 @@ export function InvitationSection({
   brideParents,
 }: InvitationSectionProps) {
   return (
-    <section className="py-20 px-6 bg-white">
+    <section className="py-20 px-6 bg-white dark:bg-neutral-900">
       <div className="max-w-md mx-auto text-center">
         {/* Title */}
-        <h2 className="text-sm tracking-[0.3em] text-gray-500 mb-8">
+        <h2 className="text-sm tracking-[0.3em] text-gray-500 dark:text-gray-400 mb-8">
           INVITATION
         </h2>
 
         {/* Message */}
-        <p className="text-gray-700 leading-relaxed whitespace-pre-line font-light text-base mb-12">
+        <p className="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line font-light text-base mb-12">
           {message}
         </p>
 
         {/* Divider */}
-        <div className="w-12 h-px bg-gray-300 mx-auto mb-12" />
+        <div className="w-12 h-px bg-gray-300 dark:bg-gray-600 mx-auto mb-12" />
 
         {/* Names and Parents */}
         <div className="space-y-4 mb-12">
           {groomParents && (
-            <p className="text-sm text-gray-600">
-              <span className="text-gray-500">{groomParents.father} · {groomParents.mother}</span>
-              <span className="text-gray-400 mx-2">의 아들</span>
-              <span className="font-medium text-gray-800">{groomName}</span>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              <span className="text-gray-500 dark:text-gray-500">{groomParents.father} · {groomParents.mother}</span>
+              <span className="text-gray-400 dark:text-gray-500 mx-2">의 아들</span>
+              <span className="font-medium text-gray-800 dark:text-gray-200">{groomName}</span>
             </p>
           )}
           {brideParents && (
-            <p className="text-sm text-gray-600">
-              <span className="text-gray-500">{brideParents.father} · {brideParents.mother}</span>
-              <span className="text-gray-400 mx-2">의 딸</span>
-              <span className="font-medium text-gray-800">{brideName}</span>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              <span className="text-gray-500 dark:text-gray-500">{brideParents.father} · {brideParents.mother}</span>
+              <span className="text-gray-400 dark:text-gray-500 mx-2">�� 딸</span>
+              <span className="font-medium text-gray-800 dark:text-gray-200">{brideName}</span>
             </p>
           )}
           {!groomParents && !brideParents && (
-            <p className="text-xl font-serif text-gray-800">
-              {groomName} <span className="text-gray-400 mx-2">&</span> {brideName}
+            <p className="text-xl font-serif text-gray-800 dark:text-gray-200">
+              {groomName} <span className="text-gray-400 dark:text-gray-500 mx-2">&</span> {brideName}
             </p>
           )}
         </div>
 
         {/* Date and Time */}
         <div className="space-y-2">
-          <p className="text-lg text-gray-800 font-light">{date}</p>
-          <p className="text-gray-600">{time}</p>
+          <p className="text-lg text-gray-800 dark:text-gray-200 font-light">{date}</p>
+          <p className="text-gray-600 dark:text-gray-400">{time}</p>
         </div>
       </div>
     </section>
