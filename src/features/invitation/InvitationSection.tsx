@@ -45,7 +45,7 @@ export function InvitationSection({
           {brideParents && (
             <p className="text-sm text-gray-600 dark:text-gray-400">
               <span className="text-gray-500 dark:text-gray-500">{brideParents.father} · {brideParents.mother}</span>
-              <span className="text-gray-400 dark:text-gray-500 mx-2">�� 딸</span>
+              <span className="text-gray-400 dark:text-gray-500 mx-2">의 딸</span>
               <span className="font-medium text-gray-800 dark:text-gray-200">{brideName}</span>
             </p>
           )}
