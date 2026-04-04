@@ -1,7 +1,7 @@
 import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { useAssetPreloader, useScrollLock, useDarkMode, useQueryFlags } from '@/hooks';
-import { Preloader } from '@/components';
+import { Preloader, MusicPlayer } from '@/components';
 import {
   LandingSection,
   InvitationSection,
@@ -138,6 +138,11 @@ function HomePage() {
             isComplete={preloaderState.isComplete && fontsReady}
             onFadeComplete={handlePreloaderFadeComplete}
           />
+        )}
+
+        {/* Music Player - after loading */}
+        {phase !== 'loading' && (
+          <MusicPlayer src="/assets/bgm.mp3" />
         )}
 
         {/* Landing Section - Fixed background layer */}
