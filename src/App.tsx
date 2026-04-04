@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { useAssetPreloader, useScrollLock } from '@/hooks';
 import { Preloader } from '@/components';
@@ -15,25 +15,14 @@ import type { AppPhase, LocationInfo, AccountSection } from '@/types';
 // Configuration - Replace with your actual data
 const NAVER_MAP_CLIENT_ID = '5pefwq1ob6';
 
-// Stop-motion frames: 1,2,3,4,5 (4 each) + 7,11 (5 each) = 30 frames at 10fps = 3s
-const STOP_MOTION_FRAME_SEQUENCE = [
-  ...Array(4).fill('frame-001'),
-  ...Array(4).fill('frame-002'),
-  ...Array(4).fill('frame-003'),
-  ...Array(4).fill('frame-004'),
-  ...Array(4).fill('frame-005'),
-  ...Array(5).fill('frame-007'),
-  ...Array(5).fill('frame-011'),
-];
-const STOP_MOTION_FRAMES: string[] = STOP_MOTION_FRAME_SEQUENCE.map(
-  (name) => `/assets/frames-optimized/${name}.webp`
-);
+const MAIN_IMAGE = '/assets/main.png';
+const PRELOAD_ASSETS: string[] = [MAIN_IMAGE];
 
-// Gallery image indices (1-12, excluding 10)
+// Gallery image indices (1-16)
 const GALLERY_IMAGE_INDICES: number[] = Array.from(
-  { length: 12 },
+  { length: 16 },
   (_, i) => i + 1
-).filter((i) => i !== 10);
+);
 
 // Location configuration
 const WEDDING_LOCATION: LocationInfo = {
@@ -71,33 +60,52 @@ function HomePage() {
   const [phase, setPhase] = useState<AppPhase>('loading');
   const [showContent, setShowContent] = useState(false);
 
-  // Preload stop-motion frames
-  const preloaderState = useAssetPreloader(STOP_MOTION_FRAMES);
+  // Preload main image
+  const preloaderState = useAssetPreloader(PRELOAD_ASSETS);
 
-  // Lock scroll during loading and animation phases
-  useScrollLock(phase !== 'content');
-
-  // Handle preloader fade completion - transition to animation after fade out
-  const handlePreloaderFadeComplete = useCallback(() => {
-    setPhase('animating');
+  // Wait for fonts to be loaded before completing preloader
+  const [fontsReady, setFontsReady] = useState(false);
+  useEffect(() => {
+    document.fonts.ready.then(() => setFontsReady(true));
   }, []);
 
-  // Handle animation completion
-  const handleAnimationComplete = useCallback(() => {
+  // Lock scroll during loading phase
+  useScrollLock(phase !== 'content');
+
+  // Handle preloader fade completion - go straight to content
+  const handlePreloaderFadeComplete = useCallback(() => {
     setPhase('content');
-    // Trigger content fade-in
     setTimeout(() => {
       setShowContent(true);
     }, 100);
   }, []);
 
-  // Determine if we should show the animation
-  const isAnimating = phase === 'animating';
+  // Snap scroll behavior: < 1/4 viewport → snap back to top, >= 1/4 → snap to content
+  const isSnapping = useRef(false);
+
+  useEffect(() => {
+    if (phase !== 'content') return;
+
+    const handleScrollEnd = () => {
+      if (isSnapping.current) return;
+      const scrollY = window.scrollY;
+      const vh = window.innerHeight;
+      // Only snap in the landing-to-content boundary zone
+      if (scrollY > 0 && scrollY < vh) {
+        isSnapping.current = true;
+        const target = scrollY < vh / 4 ? 0 : vh;
+        window.scrollTo({ top: target, behavior: 'smooth' });
+        setTimeout(() => { isSnapping.current = false; }, 500);
+      }
+    };
+
+    window.addEventListener('scrollend', handleScrollEnd);
+    return () => window.removeEventListener('scrollend', handleScrollEnd);
+  }, [phase]);
 
   // Content visibility class
   const contentVisibilityClass = useMemo(() => {
     if (phase === 'loading') return 'opacity-0 pointer-events-none';
-    if (phase === 'animating') return 'opacity-0 pointer-events-none';
     return showContent
       ? 'opacity-100 transition-opacity duration-700'
       : 'opacity-0';
@@ -106,27 +114,28 @@ function HomePage() {
   return (
     <div className="min-h-screen bg-neutral-100">
       {/* Mobile Container */}
-      <div className="max-w-[430px] mx-auto min-h-screen bg-white shadow-xl relative">
+      <div className="mx-auto min-h-screen bg-white relative">
         {/* Preloader Overlay */}
         {phase === 'loading' && (
           <Preloader
             progress={preloaderState.progress}
-            isComplete={preloaderState.isComplete}
+            isComplete={preloaderState.isComplete && fontsReady}
             onFadeComplete={handlePreloaderFadeComplete}
           />
         )}
 
-        {/* Landing Section - Always visible after loading */}
+        {/* Landing Section - Fixed background layer */}
         {phase !== 'loading' && (
-          <LandingSection
-            frames={STOP_MOTION_FRAMES}
-            onAnimationComplete={handleAnimationComplete}
-            isAnimating={isAnimating}
-          />
+          <LandingSection mainImage={MAIN_IMAGE} />
         )}
 
-        {/* Content Sections - Fade in after animation */}
-        <div className={contentVisibilityClass}>
+        {/* Spacer for fixed landing section */}
+        {phase !== 'loading' && <div className="h-screen" />}
+
+        {/* Content Sections - Layer 2, scrolls over landing */}
+        <div className={`relative z-10 bg-white ${contentVisibilityClass}`}>
+          {/* Soft top edge - blurred shadow */}
+          <div className="absolute -top-8 left-0 right-0 h-8 pointer-events-none" style={{ background: 'linear-gradient(to bottom, transparent, white)' }} />
           <InvitationSection
             groomName="김재민"
             brideName="안소연"
@@ -139,7 +148,7 @@ function HomePage() {
           <GallerySection
             imageIndices={GALLERY_IMAGE_INDICES}
             previewCount={6}
-            totalCount={11}
+            totalCount={16}
           />
 
           <GuestbookSection />

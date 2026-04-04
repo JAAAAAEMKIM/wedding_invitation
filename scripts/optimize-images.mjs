@@ -14,13 +14,6 @@ const CONFIG = {
       full: { width: 1200, quality: 85 },   // 라이트박스용
     },
   },
-  frames: {
-    input: 'public/assets/frames',
-    output: 'public/assets/frames-optimized',
-    sizes: {
-      default: { width: 800, quality: 75 }, // 스톱모션용
-    },
-  },
 };
 
 async function ensureDir(dir) {
@@ -91,32 +84,12 @@ async function processGallery() {
   }
 }
 
-async function processFrames() {
-  console.log('\n🎬 Frames 이미지 최적화...\n');
-
-  const { input, output, sizes } = CONFIG.frames;
-  await ensureDir(output);
-
-  const files = await readdir(input);
-  const imageFiles = files.filter(f => /\.(jpg|jpeg|png)$/i.test(f));
-
-  console.log(`📷 ${imageFiles.length}개 프레임 발견\n`);
-
-  for (const file of imageFiles) {
-    const inputPath = path.join(input, file);
-    console.log(`처리 중: ${file}`);
-    await optimizeImage(inputPath, output, file, sizes.default);
-    console.log('');
-  }
-}
-
 async function main() {
   console.log('🚀 이미지 최적화 시작\n');
   console.log('=' .repeat(50));
 
   try {
     await processGallery();
-    await processFrames();
 
     console.log('=' .repeat(50));
     console.log('\n✨ 완료!\n');

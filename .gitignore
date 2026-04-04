@@ -30,3 +30,10 @@ tsconfig.tsbuildinfo
 
 # Screenshots (test artifacts)
 *.png
+!public/assets/main.png
+
+# Original gallery images (large files, use optimized instead)
+public/assets/gallery/
+
+# Original frames
+public/assets/frames/

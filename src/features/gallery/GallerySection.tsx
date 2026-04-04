@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 // Image paths helper
 function getImagePaths(index: number) {
-  const name = `photo-${index}`;
+  const name = `photo_${index}`;
   return {
     webp: `/assets/gallery-optimized/thumb/${name}.webp`,
     jpg: `/assets/gallery-optimized/thumb/${name}.jpg`,

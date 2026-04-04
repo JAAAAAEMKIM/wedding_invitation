@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 // Image paths helper
 function getImagePaths(index: number) {
-  const name = `photo-${index}`;
+  const name = `photo_${index}`;
   return {
     thumb: {
       webp: `/assets/gallery-optimized/thumb/${name}.webp`,
@@ -17,7 +17,7 @@ function getImagePaths(index: number) {
 }
 
 // All gallery image indices
-const ALL_IMAGE_INDICES = Array.from({ length: 12 }, (_, i) => i + 1).filter((i) => i !== 10);
+const ALL_IMAGE_INDICES = Array.from({ length: 16 }, (_, i) => i + 1);
 
 // Lazy loading image component with intersection observer
 function LazyImage({
@@ -240,7 +240,7 @@ export function GalleryPage() {
                 </svg>
               </button>
 
-              {/* Image - use full size for lightbox */}
+              {/* Image - use optimized full for lightbox */}
               <picture>
                 <source srcSet={selectedImagePaths.full.webp} type="image/webp" />
                 <img
