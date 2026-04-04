@@ -32,21 +32,8 @@ export function GallerySection({
           to="/gallery"
           className="block text-center mb-8 group"
         >
-          <h2 className="text-sm tracking-[0.3em] text-gray-500 group-hover:text-gray-700 transition-colors inline-flex items-center gap-2">
+          <h2 className="text-sm tracking-[0.3em] text-gray-500 group-hover:text-gray-700 transition-colors">
             {title}
-            <svg
-              className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
           </h2>
         </Link>
 
