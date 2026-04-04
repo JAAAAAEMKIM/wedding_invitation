@@ -10,7 +10,7 @@ const CONFIG = {
     input: 'public/assets/gallery',
     output: 'public/assets/gallery-optimized',
     sizes: {
-      thumb: { width: 400, quality: 80 },   // 그리드용 썸네일
+      thumb: { width: 800, quality: 85 },   // 그리드용 썸네일
       full: { width: 1200, quality: 85 },   // 라이트박스용
     },
   },

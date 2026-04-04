@@ -56,9 +56,12 @@ const ACCOUNT_SECTIONS: AccountSection[] = [
   },
 ];
 
+// Track if assets have already been loaded in this session
+let assetsLoaded = false;
+
 function HomePage() {
-  const [phase, setPhase] = useState<AppPhase>('loading');
-  const [showContent, setShowContent] = useState(false);
+  const [phase, setPhase] = useState<AppPhase>(assetsLoaded ? 'content' : 'loading');
+  const [showContent, setShowContent] = useState(assetsLoaded);
 
   // Preload main image
   const preloaderState = useAssetPreloader(PRELOAD_ASSETS);
@@ -74,6 +77,7 @@ function HomePage() {
 
   // Handle preloader fade completion - go straight to content
   const handlePreloaderFadeComplete = useCallback(() => {
+    assetsLoaded = true;
     setPhase('content');
     setTimeout(() => {
       setShowContent(true);
