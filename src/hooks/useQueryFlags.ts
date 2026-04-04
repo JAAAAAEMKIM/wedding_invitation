@@ -12,6 +12,7 @@ import { useMemo } from 'react';
  * - gm: Show groom mother account
  * - bf: Show bride father account
  * - bm: Show bride mother account
+ * - bg2: Play bgm-digimon instead of default bgm
  */
 
 function parseFlags(): Set<string> {

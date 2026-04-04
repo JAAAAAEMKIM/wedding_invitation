@@ -250,9 +250,12 @@ function HomePage() {
 }
 
 function App() {
+  const { has } = useQueryFlags();
+  const bgmSrc = has('bg2') ? '/assets/bgm-digimon.mp3' : '/assets/bgm.mp3';
+
   return (
     <>
-      <MusicPlayer src="/assets/bgm.mp3" />
+      <MusicPlayer src={bgmSrc} />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/gallery" element={<GalleryPage />} />
