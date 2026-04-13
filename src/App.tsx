@@ -227,6 +227,7 @@ function HomePage() {
             groomParents={{ father: '김봉희', mother: '우수경' }}
             brideParents={{ father: '안정용', mother: '안유경' }}
             message={invitationMessage}
+            showDate={showDate}
           />
 
           <GallerySection

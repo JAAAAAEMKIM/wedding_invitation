@@ -6,6 +6,7 @@ interface InvitationSectionProps {
   message?: string | undefined;
   groomParents?: { father: string; mother: string };
   brideParents?: { father: string; mother: string };
+  showDate?: boolean;
 }
 
 export function InvitationSection({
@@ -16,6 +17,7 @@ export function InvitationSection({
   message = '서로를 향한 마음을 모아\n평생을 함께 할 약속을 합니다.\n\n귀한 걸음 하시어\n저희의 새로운 시작을\n축복해 주시면 감사하겠습니다.',
   groomParents,
   brideParents,
+  showDate = true,
 }: InvitationSectionProps) {
   return (
     <section className="py-20 px-6 bg-white dark:bg-neutral-900">
@@ -57,10 +59,12 @@ export function InvitationSection({
         </div>
 
         {/* Date and Time */}
-        <div className="space-y-2">
-          <p className="text-lg text-gray-800 dark:text-gray-200 font-light">{date}</p>
-          <p className="text-gray-600 dark:text-gray-400">{time}</p>
-        </div>
+        {showDate && (
+          <div className="space-y-2">
+            <p className="text-lg text-gray-800 dark:text-gray-200 font-light">{date}</p>
+            <p className="text-gray-600 dark:text-gray-400">{time}</p>
+          </div>
+        )}
       </div>
     </section>
   );
