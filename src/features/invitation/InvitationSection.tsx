@@ -3,7 +3,7 @@ interface InvitationSectionProps {
   brideName: string;
   date: string;
   time: string;
-  message?: string;
+  message?: string | undefined;
   groomParents?: { father: string; mother: string };
   brideParents?: { father: string; mother: string };
 }

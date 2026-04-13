@@ -13,6 +13,7 @@ import { useMemo } from 'react';
  * - bf: Show bride father account
  * - bm: Show bride mother account
  * - bg2: Play bgm-digimon instead of default bgm
+ * - na: Announcement mode (not attending) - different invitation message
  */
 
 function parseFlags(): Set<string> {
