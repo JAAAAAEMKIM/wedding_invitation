@@ -106,7 +106,7 @@ function HomePage() {
   const isAnnouncement = has('na');
 
   const invitationMessage = isAnnouncement
-    ? '서로를 향한 마음을 모아\n평생을 함께 할 약속을 합니다.\n\n저희의 뜻으로 예식 없이 진행하게 되어\n한분씩 찾아뵙고 인사드리지 못하는 점\n넓은 마음으로 양해 부탁드립니다.\n\n저희의 새로운 시작을\n축복해 주시면 감사하겠습니다.'
+    ? '서로를 향한 마음을 모아\n평생을 함께 할 약속을 합니다.\n\n저희의 뜻으로 예식 없이 진행하게 되어,\n한분씩 찾아뵙고 인사드리지 못하는 점\n넓은 마음으로 양해 부탁드립니다.\n\n저희의 새로운 시작을\n축복해 주시면 감사하겠습니다.'
     : undefined;
 
   const mainImage = isDark ? MAIN_IMAGE_DARK : MAIN_IMAGE_LIGHT;
