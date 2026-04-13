@@ -218,7 +218,7 @@ function HomePage() {
             groomName="김재민"
             brideName="안소연"
             date="2026년 5월 16일 토요일"
-            time="오후 5시"
+            time="오후 6시"
             groomParents={{ father: '김봉희', mother: '우수경' }}
             brideParents={{ father: '안정용', mother: '안유경' }}
           />
