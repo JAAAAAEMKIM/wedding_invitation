@@ -237,8 +237,6 @@ function HomePage() {
             totalCount={16}
           />
 
-          <GuestbookSection />
-
           <section className="py-20 px-4 bg-gray-50 dark:bg-neutral-800">
             {showLocation && (
               <LocationSection
@@ -248,6 +246,8 @@ function HomePage() {
             )}
             <AccountSection accountSections={accountSections} />
           </section>
+
+          <GuestbookSection />
 
           {/* Footer */}
           <footer className="py-8 text-center text-xs text-gray-400 dark:text-gray-500">
