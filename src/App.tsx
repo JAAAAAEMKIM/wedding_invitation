@@ -49,7 +49,7 @@ const ACCOUNTS = {
     holder: '김재민',
   },
   groomFather: {
-    bank: '국민은행',
+    bank: '농협은행',
     accountNumber: '356-1303-3915-33',
     holder: '김봉희',
   },
