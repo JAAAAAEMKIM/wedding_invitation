@@ -50,7 +50,7 @@ const ACCOUNTS = {
   },
   groomFather: {
     bank: '국민은행',
-    accountNumber: '123-45-6789012',
+    accountNumber: '356-1303-3915-33',
     holder: '김봉희',
   },
   groomMother: {
@@ -64,8 +64,8 @@ const ACCOUNTS = {
     holder: '안소연',
   },
   brideFather: {
-    bank: '하나은행',
-    accountNumber: '123-456789-01234',
+    bank: '신한은행',
+    accountNumber: '339-06-415428',
     holder: '안정용',
   },
   brideMother: {
