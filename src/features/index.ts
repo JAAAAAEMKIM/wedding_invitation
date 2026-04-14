@@ -3,3 +3,4 @@ export { InvitationSection } from './invitation';
 export { GallerySection } from './gallery';
 export { GuestbookSection } from './guestbook';
 export { LocationSection } from './location';
+export { AccountSection } from './account/AccountSection';

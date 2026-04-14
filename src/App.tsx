@@ -13,9 +13,10 @@ import {
   GallerySection,
   GuestbookSection,
   LocationSection,
+  AccountSection,
 } from '@/features';
 import { GalleryPage } from '@/pages';
-import type { AppPhase, LocationInfo, AccountSection } from '@/types';
+import type { AppPhase, LocationInfo, AccountSection as AccountSectionType } from '@/types';
 
 // Configuration - Replace with your actual data
 const NAVER_MAP_CLIENT_ID = '5pefwq1ob6';
@@ -98,7 +99,7 @@ function HomePage() {
     return [
       { title: '신랑측 계좌번호', accounts: groomAccounts },
       { title: '신부측 계좌번호', accounts: brideAccounts },
-    ] as AccountSection[];
+    ] as AccountSectionType[];
   }, [has]);
 
   const showLocation = !has('hl');
@@ -238,13 +239,15 @@ function HomePage() {
 
           <GuestbookSection />
 
-          {showLocation && (
-            <LocationSection
-              location={WEDDING_LOCATION}
-              naverClientId={NAVER_MAP_CLIENT_ID}
-              accountSections={accountSections}
-            />
-          )}
+          <section className="py-20 px-4 bg-gray-50 dark:bg-neutral-800">
+            {showLocation && (
+              <LocationSection
+                location={WEDDING_LOCATION}
+                naverClientId={NAVER_MAP_CLIENT_ID}
+              />
+            )}
+            <AccountSection accountSections={accountSections} />
+          </section>
 
           {/* Footer */}
           <footer className="py-8 text-center text-xs text-gray-400 dark:text-gray-500">
