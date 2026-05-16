@@ -32,6 +32,7 @@ tsconfig.tsbuildinfo
 *.png
 !public/assets/main.png
 !public/assets/main.dark.png
+!public/assets/qrcode.png
 
 # Original gallery images (large files, use optimized instead)
 public/assets/gallery/
