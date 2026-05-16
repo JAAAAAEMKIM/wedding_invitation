@@ -14,6 +14,8 @@ import {
   GuestbookSection,
   LocationSection,
   AccountSection,
+  MenuSection,
+  PhotoUploadSection,
 } from '@/features';
 import { GalleryPage } from '@/pages';
 import type { AppPhase, LocationInfo, AccountSection as AccountSectionType } from '@/types';
@@ -237,13 +239,24 @@ function HomePage() {
             totalCount={16}
           />
 
-          <section className="py-20 px-4 bg-gray-50 dark:bg-neutral-800">
-            {showLocation && (
+          <section className="py-[70px] px-4 bg-gray-50 dark:bg-neutral-800">
+            <PhotoUploadSection />
+          </section>
+
+          {showLocation && (
+            <section className="py-[70px] px-4 bg-white dark:bg-neutral-900">
               <LocationSection
                 location={WEDDING_LOCATION}
                 naverClientId={NAVER_MAP_CLIENT_ID}
               />
-            )}
+            </section>
+          )}
+
+          <section className="py-[70px] px-4 bg-white dark:bg-neutral-900">
+            <MenuSection />
+          </section>
+
+          <section className="py-[70px] px-4 bg-gray-50 dark:bg-neutral-800">
             <AccountSection accountSections={accountSections} />
           </section>
 

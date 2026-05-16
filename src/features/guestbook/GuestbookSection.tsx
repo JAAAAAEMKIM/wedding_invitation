@@ -62,7 +62,7 @@ export function GuestbookSection({
   };
 
   return (
-    <section className="py-20 px-4 bg-white dark:bg-neutral-900">
+    <section className="py-[70px] px-4 bg-gray-50 dark:bg-neutral-800">
       <div className="max-w-md mx-auto">
         {/* Title */}
         <h2 className="text-sm tracking-[0.3em] text-gray-500 dark:text-gray-400 text-center mb-8">
@@ -105,7 +105,7 @@ export function GuestbookSection({
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full py-3 border border-gray-300 dark:border-gray-600 rounded-lg text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-neutral-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-3 border border-gray-300 dark:border-gray-600 rounded-lg text-sm text-gray-700 dark:text-gray-300 bg-white dark:bg-neutral-800 hover:bg-gray-100 dark:hover:bg-neutral-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isSubmitting ? '등록 중...' : '작성하기'}
           </button>
@@ -125,7 +125,7 @@ export function GuestbookSection({
             entries.map((entry) => (
               <div
                 key={entry.id}
-                className="p-4 bg-gray-50 dark:bg-neutral-800 rounded-lg"
+                className="p-4 bg-white dark:bg-neutral-900 rounded-lg"
               >
                 <div className="flex justify-between items-start mb-2">
                   <span className="font-medium text-gray-800 dark:text-gray-200 text-sm">

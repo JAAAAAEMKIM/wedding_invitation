@@ -20,7 +20,7 @@ export function InvitationSection({
   showDate = true,
 }: InvitationSectionProps) {
   return (
-    <section className="py-20 px-6 bg-white dark:bg-neutral-900">
+    <section className="py-[70px] px-6 bg-white dark:bg-neutral-900">
       <div className="max-w-md mx-auto text-center">
         {/* Title */}
         <h2 className="text-sm tracking-[0.3em] text-gray-500 dark:text-gray-400 mb-8">

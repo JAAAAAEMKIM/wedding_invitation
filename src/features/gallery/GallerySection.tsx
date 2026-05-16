@@ -25,7 +25,7 @@ export function GallerySection({
   const previewIndices = imageIndices.slice(0, previewCount);
 
   return (
-    <section className="py-20 px-4 bg-gray-50 dark:bg-neutral-800">
+    <section className="py-[70px] px-4 bg-gray-50 dark:bg-neutral-800">
       <div className="max-w-md mx-auto">
         {/* Title with Link */}
         <Link

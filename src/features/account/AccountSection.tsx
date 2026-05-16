@@ -91,7 +91,7 @@ export function AccountSection({ accountSections }: AccountSectionProps) {
                       </div>
                       <button
                         onClick={() => handleCopyAccount(account.accountNumber)}
-                        className="px-3 py-1.5 text-xs border border-gray-300 dark:border-gray-500 rounded-md hover:bg-gray-100 dark:hover:bg-neutral-600 transition-colors whitespace-nowrap dark:text-gray-300"
+                        className="px-3 py-1.5 text-xs border border-gray-300 dark:border-gray-500 rounded-md bg-white dark:bg-neutral-800 hover:bg-gray-100 dark:hover:bg-neutral-600 transition-colors whitespace-nowrap dark:text-gray-300"
                         type="button"
                       >
                         {copiedAccount === account.accountNumber
