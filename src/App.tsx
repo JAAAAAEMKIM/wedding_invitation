@@ -56,8 +56,8 @@ const ACCOUNTS = {
     holder: '김봉희',
   },
   groomMother: {
-    bank: '국민은행',
-    accountNumber: '123-45-6789013',
+    bank: '농협은행',
+    accountNumber: '815121-52-389402',
     holder: '우수경',
   },
   bride: {
@@ -82,31 +82,41 @@ let assetsLoaded = false;
 
 function HomePage() {
   const { isDark, toggle: toggleDarkMode } = useDarkMode();
-  const { has } = useQueryFlags();
+  const { has, to } = useQueryFlags();
   const [phase, setPhase] = useState<AppPhase>(
     assetsLoaded ? 'content' : 'loading'
   );
   const [showContent, setShowContent] = useState(assetsLoaded);
 
-  // Build account sections based on query flags
+  // Build account sections based on `to` preset or individual query flags
   const accountSections = useMemo(() => {
     const groomAccounts = [ACCOUNTS.groom];
-    if (has('gf')) groomAccounts.push(ACCOUNTS.groomFather);
-    if (has('gm')) groomAccounts.push(ACCOUNTS.groomMother);
-
     const brideAccounts = [ACCOUNTS.bride];
-    if (has('bf')) brideAccounts.push(ACCOUNTS.brideFather);
-    if (has('bm')) brideAccounts.push(ACCOUNTS.brideMother);
+
+    if (to === 'sk') {
+      groomAccounts.push(ACCOUNTS.groomFather, ACCOUNTS.groomMother);
+    } else if (to === 'yk') {
+      // groom & bride only
+    } else {
+      if (has('gf')) groomAccounts.push(ACCOUNTS.groomFather);
+      if (has('gm')) groomAccounts.push(ACCOUNTS.groomMother);
+      if (has('bf')) brideAccounts.push(ACCOUNTS.brideFather);
+      if (has('bm')) brideAccounts.push(ACCOUNTS.brideMother);
+    }
 
     return [
       { title: '신랑측 계좌번호', accounts: groomAccounts },
       { title: '신부측 계좌번호', accounts: brideAccounts },
     ] as AccountSectionType[];
-  }, [has]);
+  }, [has, to]);
 
   const showLocation = !has('hl');
   const showDate = !has('hd');
   const isAnnouncement = has('na');
+  const showPhotoUpload = to !== 'sk' && to !== 'yk';
+
+  const koreanDate = to === 'yk' ? '2026년 5월 31일 일요일' : '2026년 5월 16일 토요일';
+  const englishDate = to === 'yk' ? 'May 31, 2026 at 6:00 PM' : 'May 16, 2026 at 6:00 PM';
 
   const invitationMessage = isAnnouncement
     ? '서로를 향한 마음을 모아\n평생을 함께 할 약속을 합니다.\n\n저희의 뜻으로 예식 없이 진행하게 되어,\n한분씩 찾아뵙고 인사드리지 못하는 점\n넓은 마음으로 양해 부탁드립니다.\n\n저희의 새로운 시작을\n축복해 주시면 감사하겠습니다.'
@@ -203,6 +213,7 @@ function HomePage() {
             mainImage={mainImage}
             onQuadrupleClick={toggleDarkMode}
             showDate={showDate}
+            dateText={englishDate}
           />
         )}
 
@@ -225,7 +236,7 @@ function HomePage() {
           <InvitationSection
             groomName="김재민"
             brideName="안소연"
-            date="2026년 5월 16일 토요일"
+            date={koreanDate}
             time="오후 6시"
             groomParents={{ father: '김봉희', mother: '우수경' }}
             brideParents={{ father: '안정용', mother: '안유경' }}
@@ -239,9 +250,11 @@ function HomePage() {
             totalCount={16}
           />
 
-          <section className="py-[70px] px-4 bg-gray-50 dark:bg-neutral-800">
-            <PhotoUploadSection />
-          </section>
+          {showPhotoUpload && (
+            <section className="py-[70px] px-4 bg-gray-50 dark:bg-neutral-800">
+              <PhotoUploadSection />
+            </section>
+          )}
 
           {showLocation && (
             <section className="py-[70px] px-4 bg-white dark:bg-neutral-900">

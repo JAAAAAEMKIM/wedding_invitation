@@ -4,12 +4,13 @@ interface LandingSectionProps {
   mainImage: string;
   onQuadrupleClick?: () => void;
   showDate?: boolean;
+  dateText?: string;
 }
 
 const RAPID_CLICK_THRESHOLD = 500; // ms between clicks
 const REQUIRED_CLICKS = 4;
 
-export function LandingSection({ mainImage, onQuadrupleClick, showDate = true }: LandingSectionProps) {
+export function LandingSection({ mainImage, onQuadrupleClick, showDate = true, dateText = 'May 16, 2026 at 6:00 PM' }: LandingSectionProps) {
   const [blurAmount, setBlurAmount] = useState(0);
   const rafRef = useRef<number>(0);
   const clickTimesRef = useRef<number[]>([]);
@@ -75,7 +76,7 @@ export function LandingSection({ mainImage, onQuadrupleClick, showDate = true }:
             className="absolute right-4 text-gray-500 dark:text-gray-400 text-sm font-light"
             style={{ fontFamily: "'Hanken Grotesk', sans-serif", bottom: '10px' }}
           >
-            May 16, 2026 at 6:00 PM
+            {dateText}
           </div>
         )}
 
