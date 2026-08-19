@@ -13,11 +13,10 @@ import { useMemo } from 'react';
  * - bf: Show bride father account
  * - bm: Show bride mother account
  * - bg2: Play bgm-digimon instead of default bgm
- * - na: Announcement mode (not attending) - different invitation message
  *
  * Recipient preset is passed via ?to=preset
  * - sk: 신랑측 전체 + 신부 단독, 사진 업로드 숨김
- * - yk: 5/31 날짜, 신랑/신부만, 사진 업로드 숨김
+ * - yk: 신랑/신부만, 사진 업로드 숨김
  */
 
 function parseFlags(): Set<string> {

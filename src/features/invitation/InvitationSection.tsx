@@ -3,7 +3,7 @@ interface InvitationSectionProps {
   brideName: string;
   date: string;
   time: string;
-  message?: string | undefined;
+  message: string;
   groomParents?: { father: string; mother: string };
   brideParents?: { father: string; mother: string };
   showDate?: boolean;
@@ -14,7 +14,7 @@ export function InvitationSection({
   brideName,
   date,
   time,
-  message = '서로를 향한 마음을 모아\n평생을 함께 할 약속을 합니다.\n\n귀한 걸음 하시어\n저희의 새로운 시작을\n축복해 주시면 감사하겠습니다.',
+  message,
   groomParents,
   brideParents,
   showDate = true,

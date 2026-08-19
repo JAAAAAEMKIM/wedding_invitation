@@ -10,7 +10,7 @@ interface LandingSectionProps {
 const RAPID_CLICK_THRESHOLD = 500; // ms between clicks
 const REQUIRED_CLICKS = 4;
 
-export function LandingSection({ mainImage, onQuadrupleClick, showDate = true, dateText = 'May 16, 2026 at 6:00 PM' }: LandingSectionProps) {
+export function LandingSection({ mainImage, onQuadrupleClick, showDate = true, dateText = 'October 18, 2026 at 1:00 PM' }: LandingSectionProps) {
   const [blurAmount, setBlurAmount] = useState(0);
   const rafRef = useRef<number>(0);
   const clickTimesRef = useRef<number[]>([]);

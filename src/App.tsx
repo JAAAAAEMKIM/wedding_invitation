@@ -27,6 +27,15 @@ const MAIN_IMAGE_LIGHT = '/assets/main.png';
 const MAIN_IMAGE_DARK = '/assets/main.dark.png';
 const PRELOAD_ASSETS: string[] = [MAIN_IMAGE_LIGHT, MAIN_IMAGE_DARK];
 
+// Wedding date
+const KOREAN_DATE = '2026년 10월 18일 일요일';
+const ENGLISH_DATE = 'October 18, 2026 at 1:00 PM';
+const WEDDING_TIME = '오후 1시';
+
+// Invitation message
+const INVITATION_MESSAGE =
+  '서로를 향한 마음을 모아\n평생을 함께 할 약속을 합니다.\n\n한 분 한 분 찾아뵙고\n인사드리는 것이 도리이나,\n저희의 뜻으로 가족들과 함께하는\n작은 예식으로 진행하게 되었습니다.\n\n너른 마음으로 양해해 주시고\n저희의 새로운 시작을\n축복해 주시면 감사하겠습니다.';
+
 // Gallery image indices (1-16)
 const GALLERY_IMAGE_INDICES: number[] = Array.from(
   { length: 16 },
@@ -112,15 +121,7 @@ function HomePage() {
 
   const showLocation = !has('hl');
   const showDate = !has('hd');
-  const isAnnouncement = has('na');
   const showPhotoUpload = to !== 'sk' && to !== 'yk';
-
-  const koreanDate = to === 'yk' ? '2026년 5월 31일 일요일' : '2026년 5월 16일 토요일';
-  const englishDate = to === 'yk' ? 'May 31, 2026 at 6:00 PM' : 'May 16, 2026 at 6:00 PM';
-
-  const invitationMessage = isAnnouncement
-    ? '서로를 향한 마음을 모아\n평생을 함께 할 약속을 합니다.\n\n저희의 뜻으로 예식 없이 진행하게 되어,\n한분씩 찾아뵙고 인사드리지 못하는 점\n넓은 마음으로 양해 부탁드립니다.\n\n저희의 새로운 시작을\n축복해 주시면 감사하겠습니다.'
-    : undefined;
 
   const mainImage = isDark ? MAIN_IMAGE_DARK : MAIN_IMAGE_LIGHT;
 
@@ -213,7 +214,7 @@ function HomePage() {
             mainImage={mainImage}
             onQuadrupleClick={toggleDarkMode}
             showDate={showDate}
-            dateText={englishDate}
+            dateText={ENGLISH_DATE}
           />
         )}
 
@@ -236,11 +237,11 @@ function HomePage() {
           <InvitationSection
             groomName="김재민"
             brideName="안소연"
-            date={koreanDate}
-            time="오후 6시"
+            date={KOREAN_DATE}
+            time={WEDDING_TIME}
             groomParents={{ father: '김봉희', mother: '우수경' }}
             brideParents={{ father: '안정용', mother: '안유경' }}
-            message={invitationMessage}
+            message={INVITATION_MESSAGE}
             showDate={showDate}
           />
 
