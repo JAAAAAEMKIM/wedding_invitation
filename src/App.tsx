@@ -14,7 +14,6 @@ import {
   GuestbookSection,
   LocationSection,
   AccountSection,
-  MenuSection,
   PhotoUploadSection,
 } from '@/features';
 import { GalleryPage } from '@/pages';
@@ -119,9 +118,9 @@ function HomePage() {
     ] as AccountSectionType[];
   }, [has, to]);
 
-  const showLocation = !has('hl');
-  const showDate = !has('hd');
-  const showPhotoUpload = to !== 'sk' && to !== 'yk';
+  const showLocation = false;
+  const showDate = false;
+  const showPhotoUpload = false;
 
   const mainImage = isDark ? MAIN_IMAGE_DARK : MAIN_IMAGE_LIGHT;
 
@@ -265,10 +264,6 @@ function HomePage() {
               />
             </section>
           )}
-
-          <section className="py-[70px] px-4 bg-white dark:bg-neutral-900">
-            <MenuSection />
-          </section>
 
           <section className="py-[70px] px-4 bg-gray-50 dark:bg-neutral-800">
             <AccountSection accountSections={accountSections} />
